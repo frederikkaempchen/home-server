@@ -19,6 +19,7 @@ Timezone=local
 
 # Volumes
 # Persistent data (config, database, user files)
+Volume=%h/.config/containers/systemd/filebrowser/config.yaml:/home/filebrowser/data/config.yaml:ro
 Volume=%h/filebrowser:/home/filebrowser/data
 Volume=%h/sync:/srv
 
@@ -29,12 +30,14 @@ Environment=PUID=%U PGID=%G
 SecurityLabelDisable=true
 
 # Environments
-# Environment=FILEBROWSER_CONFIG="data/config.yaml"
+Environment=FILEBROWSER_CONFIG="data/config.yaml"
 # Run this command before you start this container then change it once running:
 # echo -n 'password123' | podman secret create filebrowser_admin_pwd -
 Secret=filebrowser_admin_pwd,type=env,target=FILEBROWSER_ADMIN_PASSWORD
 
 [Service]
+# create directories if they don't already exist
+ExecStartPre=/bin/mkdir -p %h/filebrowser %h/sync
 # Restart automatically on crash
 Restart=always
 RestartSec=10

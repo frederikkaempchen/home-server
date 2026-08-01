@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  database: "./data/database.db"
+  baseURL:  "/"
+  logging:
+    - levels: "info|warning|error"
+  sources:
+    - path: "/srv"
+      name: "Storage"
+      config:
+        defaultEnabled: true
+        createUserDir: true
+        defaultUserScope: "/"
+frontend:
+  styling:
+    lightBackground: "#d8edda"
+    darkBackground: "#000b0b"
+auth:
+  methods:
+    password:
+      minLength: 12

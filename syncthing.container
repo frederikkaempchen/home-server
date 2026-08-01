@@ -38,6 +38,8 @@ UserNS=keep-id
 Environment=PUID=%U PGID=%G
 
 [Service]
+# create required directories at initialisation
+ExecStartPre=/bin/mkdir -p %h/sync %h/.config/containers/syncthing
 Restart=always
 
 [Install]
