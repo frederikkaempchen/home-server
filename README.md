@@ -4,6 +4,12 @@
 * (crowdsec and ufw - a secure firewall is nice to have at the very least)
 
 ## setup instructions
+full bash script until step 8 with filebrowser password "password123" for admin user - change that later:
+```
+sudo apt-get install podman -y && mkdir -p ~/.config/containers/systemd && cd ~/.config/containers/systemd && git clone https://github.com/frederikkaempchen/home-server && systemctl --user daemon-reload && echo -n 'password123' | podman secret create filebrowser_admin_pwd -
+```
+then continue with steps 8 to 12
+
 1. install podman ``` sudo apt-get install podman```
 2. create directory in for quadlets: ```mkdir -p ~/.config/containers/systemd```
 3. go there ```cd ~/.config/containers/systemd```
@@ -17,9 +23,6 @@
 11. check status: ```systemctl --user status <service name>``` or ```podman ps``` or ...
 12. create routes to filebrowser:8080 (filebrowser/config.yaml specifies this) and to static-server:8787 in [cloudflare](https://developers.cloudflare.com/tunnel/routing/)
 
-## full bash script until step 8 with filebrowser password "password123" for admin user - change that later:
-```
-sudo apt-get install podman -y && mkdir -p ~/.config/containers/systemd && cd ~/.config/containers/systemd && git clone https://github.com/frederikkaempchen/home-server && systemctl --user daemon-reload && echo -n 'password123' | podman secret create filebrowser_admin_pwd -
-```
-then continue with steps 8 to 12
+
+
 
