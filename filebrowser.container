@@ -1,0 +1,44 @@
+[Unit]
+Description=FileBrowser
+After=webnet.network
+BindsTo=webnet.network
+Requires=webnet.network
+
+
+[Container]
+# Container settings
+ContainerName=filebrowser
+Image=docker.io/gtstef/filebrowser:latest
+
+# Automatical Updates
+AutoUpdate=registry
+
+Network=webnet.network
+
+Timezone=local
+
+# Volumes
+# Persistent data (config, database, user files)
+Volume=%h/filebrowser:/home/filebrowser/data
+Volume=%h/sync:/srv
+
+# files belong to user
+UserNS=keep-id
+Environment=PUID=%U PGID=%G
+
+SecurityLabelDisable=true
+
+# Environments
+# Environment=FILEBROWSER_CONFIG="data/config.yaml"
+# Run this command before you start this container then change it once running:
+# echo -n 'password123' | podman secret create filebrowser_admin_pwd -
+Secret=filebrowser_admin_pwd,type=env,target=FILEBROWSER_ADMIN_PASSWORD
+
+[Service]
+# Restart automatically on crash
+Restart=always
+RestartSec=10
+
+[Install]
+# Enable at boot
+WantedBy=default.target

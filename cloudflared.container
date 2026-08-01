@@ -1,0 +1,23 @@
+[Unit]
+Description=Cloudflare Tunnel
+After=network-online.target
+
+[Container]
+Image=docker.io/cloudflare/cloudflared:latest
+
+ContainerName=cloudflared
+
+# 'tunnel run' starts the tunnel using a token (no credentials file needed).
+# --no-autoupdate disables the built-in updater — Podman/systemd handles
+# image updates instead, which is cleaner in a container setup.
+# Replace YOUR_TUNNEL_TOKEN with your actual token from the CF dashboard.
+Exec=tunnel --no-autoupdate run --token YOUR_TUNNEL_TOKEN
+
+# Must be on the same network as pwa so it can reach http://pwa:8787
+Network=webnet.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

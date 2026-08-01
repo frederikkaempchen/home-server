@@ -1,0 +1,21 @@
+[Unit]
+Description=static web server for serving the mc-enchants pwa (static-web-server, Rust)
+After=network-online.target
+
+[Container]
+Image=ghcr.io/static-web-server/static-web-server:latest
+ContainerName=static-server
+
+Environment=SERVER_PORT=8787
+Environment=SERVER_ROOT=/public
+Environment=SERVER_FALLBACK_PAGE=/public/index.html
+
+Volume=%h/pwa/dist:/public:ro
+
+Network=webnet.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
