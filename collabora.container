@@ -1,0 +1,25 @@
+# ~/.config/containers/systemd/collabora.container
+[Unit]
+Description=Collabora Online (Filestash WOPI backend)
+After=webnet.network network-online.target
+BindsTo=webnet.network
+Requires=webnet.network
+
+[Container]
+ContainerName=collabora
+Image=docker.io/collabora/code:latest
+AutoUpdate=registry
+Network=webnet.network
+
+#User=root
+Environment="extra_params=--o:ssl.enable=false --o:ssl.termination=true"
+Environment=server_name=office.kaempn.de
+Environment=aliasgroup1=https://.*:443
+#PublishPort=127.0.0.1:9980:9980
+
+[Service]
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

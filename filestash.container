@@ -1,0 +1,32 @@
+[Unit]
+Description=Filestash
+After=webnet.network network-online.target
+BindsTo=webnet.network
+Requires=webnet.network
+
+[Container]
+ContainerName=filestash
+Image=docker.io/machines/filestash:latest
+AutoUpdate=registry
+Network=webnet.network
+
+Environment=CANARY=true
+Environment=APPLICATION_URL=filestash.kaempn.de
+Environment=OFFICE_URL=http://collabora:9980
+Environment=OFFICE_FILESTASH_URL=https://filestash.kaempn.de
+Environment=OFFICE_REWRITE_URL=https://office.kaempn.de
+
+Volume=%h/filestash-state:/app/data/state
+Volume=%h/sync:/mnt/sync
+
+UserNS=keep-id
+Environment=PUID=%U PGID=%G
+
+[Service]
+ExecStartPre=/bin/mkdir -p %h/filestash-state
+ExecStartPre=/bin/mkdir -p %h/sync
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
